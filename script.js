@@ -37,3 +37,14 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
     this.reset();
   }
 });
+
+// ...existing code...
+window.addEventListener('scroll', function() {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 50) {
+    nav.classList.add('blur');
+  } else {
+    nav.classList.remove('blur');
+  }
+});
+
