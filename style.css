@@ -66,7 +66,7 @@ nav.blur {
   color: #0e2f3f;
   align-items: center;
   justify-content: center;
-  gap: 0 420px;
+  gap: 0 10vw;
 }
 
 #home .container {
@@ -220,7 +220,7 @@ nav.blur {
 }
 
 .Vector {
-  height: 350px;
+  height: 300px;
   overflow: hidden;
   border-radius: 20px;
 }
@@ -236,7 +236,7 @@ nav.blur {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0 230px;
+  gap: 0 220px;
 }
 
 .wrapcard {
@@ -279,12 +279,12 @@ nav.blur {
 /* Contact Section */
 #contact {
   height: 88vh;
-  padding: 80px 0px;
+  padding: 70px 0px;
   background: #f9f9f9;
 }
 
 .contacts{
-  padding-left: 240px;
+  padding-left: 220px;
 }
 
 .wraps{
@@ -381,12 +381,109 @@ footer p {
     gap: 10px;
   }
 
-  #home h2 {
+  #home {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  #home h1 {
     font-size: 36px;
+  }
+
+  #home h2 {
+    font-size: 20px;
   }
 
   #home p {
     font-size: 16px;
+  }
+
+  .image-section img {
+    max-width: 100%;
+  }
+
+  #about {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  #about h1 {
+    font-size: 28px;
+  }
+
+  #about p {
+    font-size: 16px;
+  }
+
+  .container ul {
+    padding-left: 20px;
+  }
+
+  .image {
+    height: 300px;
+  }
+
+  #skill {
+    padding: 20px;
+  }
+
+  #skill h2 {
+    font-size: 28px;
+  }
+
+  .skill-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .skill-card {
+    padding: 15px;
+  }
+
+  .imgHTML img {
+    max-width: 150px;
+  }
+
+  #Educations {
+    padding: 20px;
+  }
+
+  .wrap {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .educations-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .education-card {
+    width: 100%;
+    height: auto;
+  }
+
+  #contact {
+    padding: 20px;
+  }
+
+  .contacts {
+    padding-left: 0;
+  }
+
+  .wraps {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #contact h2 {
+    font-size: 28px;
+  }
+
+  #contact form {
+    width: 100%;
   }
 
   .project-grid {
