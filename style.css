@@ -61,12 +61,12 @@ nav.blur {
 #home {
   height: 100vh;
   background: linear-gradient(to right, #ffffff, #f4efe6);
-/*  background-image: url('/Asset/Web\ Backgrounds.png'); */
   display: flex;
+  flex-direction: row;
   color: #0e2f3f;
   align-items: center;
   justify-content: center;
-  gap: 0 22vw;
+  gap: 0 420px;
 }
 
 #home .container {
