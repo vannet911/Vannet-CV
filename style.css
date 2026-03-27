@@ -212,16 +212,19 @@ nav.blur {
 }
 
 .Education {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0 292px;
 }
 
-.container h2{
+#Educations h2 {
   font-size: 36px;
+  text-align: right;
 }
 
 .Vector {
   height: 300px;
-  overflow: hidden;
   border-radius: 20px;
 }
 
@@ -236,7 +239,7 @@ nav.blur {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0 220px;
+  gap: 0 280px;
 }
 
 .wrapcard {
