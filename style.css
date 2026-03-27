@@ -284,7 +284,10 @@ nav.blur {
 }
 
 .contacts{
-  padding-left: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0 370px;
 }
 
 .wraps{
@@ -292,7 +295,7 @@ nav.blur {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0 800px;
+  gap: 0 770px;
 }
 
 #contact h2 {
