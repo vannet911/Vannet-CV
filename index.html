@@ -1,223 +1,497 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vannet's CV</title>
-  <link rel="icon" type="image/x-icon" href="./assets/Profile.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio and curriculum vitae of SONY Vannet — Junior Developer based in Phnom Penh, Cambodia." />
+  <meta name="theme-color" content="#0e2f3f" />
+  <title>SONY Vannet — Junior Developer</title>
+
+  <link rel="icon" type="image/x-icon" href="./assets/Profile.ico" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="container">
-      <h3>Mr. Vannet's Profile</h3>
-      <ul>
-        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
-        <li><a href="#skill"><i class="fas fa-code"></i> Skills</a></li>
-        <li><a href="#Educations"><i class="fas fa-graduation-cap"></i> Educations</a></li>
-        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
-      </ul>
-    </div>
-  </nav>
+  <!-- Scroll progress -->
+  <div class="progress-bar" aria-hidden="true"><span id="progress"></span></div>
 
-  <!-- Section Home -->
-  <section id="home">
-    <div class="container">
-      <h1>Hello Everyone!</h1>
-      <h2>I'm Mr. SONY Vannet | Junior Developer</h2>
-      <p>Welcome to my website that show about Curriculum Vitae <br> information, Skill, Educations, Has completed Tutorial and any more.</p>
-      <a href="#about">Let's go everyone</a>
-    </div>
-    <div class="image-section">
-      <img src="./assets/Presentation.png" alt="Image">
+  <!-- Ambient background: ruled grid → plexus canvas → vignette -->
+  <div class="bg" aria-hidden="true">
+    <div class="bg__grid"></div>
+    <canvas class="bg__plexus" id="plexus"></canvas>
+    <div class="bg__vignette"></div>
+  </div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#home" class="brand">
+        <span class="brand__mark">SV</span>
+        <span class="brand__text">Vannet<span class="brand__dot">.</span></span>
+      </a>
+
+      <nav class="nav__menu" id="nav-menu" aria-label="Main navigation" data-i18n-aria="nav.menu">
+        <a href="#home" class="nav__link is-active"><i class="fas fa-home"></i><span data-i18n="nav.home">Home</span></a>
+        <a href="#about" class="nav__link"><i class="fas fa-user"></i><span data-i18n="nav.about">About</span></a>
+        <a href="#skill" class="nav__link"><i class="fas fa-code"></i><span data-i18n="nav.skill">Skills</span></a>
+        <a href="#educations" class="nav__link"><i class="fas fa-graduation-cap"></i><span
+            data-i18n="nav.education">Education</span></a>
+        <a href="#contact" class="nav__link"><i class="fas fa-envelope"></i><span
+            data-i18n="nav.contact">Contact</span></a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="icon-btn lang-toggle" id="lang-toggle" aria-label="Switch to Khmer" title="Switch to Khmer"
+          data-show="km">
+          <span class="lang-toggle__opt lang-toggle__opt--en" aria-hidden="true">
+            <span class="lang-toggle__flag">
+              <svg viewBox="0 0 60 40" focusable="false">
+                <defs>
+                  <clipPath id="flagGB">
+                    <rect width="60" height="40" rx="3" />
+                  </clipPath>
+                </defs>
+                <g clip-path="url(#flagGB)">
+                  <rect width="60" height="40" fill="#012169" />
+                  <path d="M0 0 60 40M60 0 0 40" stroke="#f5f7fa" stroke-width="9" />
+                  <path d="M0 0 60 40M60 0 0 40" stroke="#c8102e" stroke-width="4.5" />
+                  <path d="M30 0v40M0 20h60" stroke="#f5f7fa" stroke-width="14" />
+                  <path d="M30 0v40M0 20h60" stroke="#c8102e" stroke-width="8.5" />
+                </g>
+              </svg>
+            </span>
+            <b class="lang-toggle__name">English</b>
+          </span>
+
+          <span class="lang-toggle__opt lang-toggle__opt--km" aria-hidden="true">
+            <span class="lang-toggle__flag">
+              <svg viewBox="0 0 60 40" focusable="false">
+                <defs>
+                  <clipPath id="flagKH">
+                    <rect width="60" height="40" rx="3" />
+                  </clipPath>
+                </defs>
+                <g clip-path="url(#flagKH)">
+                  <rect width="60" height="40" fill="#032ea1" />
+                  <rect y="10" width="60" height="20" fill="#e00025" />
+                  <g fill="#fff">
+                    <path d="M30 9.6 31.3 12h-2.6z" />
+                    <rect x="28.7" y="11.9" width="2.6" height="10.4" />
+                    <path d="M24.4 14.6 25.4 16.6h-2z" />
+                    <rect x="23.5" y="16.5" width="1.9" height="5.8" />
+                    <path d="M35.6 14.6 36.6 16.6h-2z" />
+                    <rect x="34.6" y="16.5" width="1.9" height="5.8" />
+                    <rect x="21.5" y="21.9" width="17" height="1.8" />
+                    <rect x="20.2" y="23.6" width="19.6" height="2.1" />
+                  </g>
+                </g>
+              </svg>
+            </span>
+            <b class="lang-toggle__name">ខ្មែរ</b>
+          </span>
+        </button>
+        <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch colour theme" title="Switch theme">
+          <svg class="theme-toggle__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path class="theme-toggle__moon" fill="currentColor"
+              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+            <g class="theme-toggle__sun" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="4.2" />
+              <path d="M12 2.4v2.2M12 19.4v2.2M2.4 12h2.2M19.4 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" />
+            </g>
+          </svg>
+        </button>
+        <button class="icon-btn nav__burger" id="nav-burger" aria-label="Open menu" aria-expanded="false"
+          aria-controls="nav-menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- Section About -->
-  <section id="about">
-    <div class="container">
-      <h1>About Me</span></h1><br>
-      <p>_________________________________________________________________________________</p><br>
-      <p>My name’s <span class="name">SONY Vannet</span> and I’m 23 year old. I was born on February 21, 2002 <br>
-        at Tahing Village, Prek Dach Commune, Leurk Daek District, Kandal Province, Cambodia. <br>
-        And now I live in Phnom Penh, Cambodia.</p><br>
-      <p>I’m studied bachelor’s degree, Computer Science of Information Technology (IT) at <br>
-        Royal University of Phnom Penh. Finished at Hun Sen Kampong Phnom Height School and <br>
-        finished at Prek Touch Secondary School at Kondal Province.</p><br>
-      <p>Has complete Visual Studio C# Programming Foundation & OOP Database, <br>
-        Language C & C++ Programming, Graphic Design (Photoshop & Illustrator), Microsoft Office <br>
-        (World, Excel, Power Point and Internet), Accounting & Taxation. And now I’m Studying HTML, <br>CSS and JavaScript, UX & UI Mockup Design.</p><br>
-      <h3>INTERESTS:</h3><br>
-        <ul>
-          <li>Researching on the Internet.</li>
-          <li>Learning new Technology.</li>
-          <li>Listening to the music and playing guitar.</li>
-        </ul>
-    </div>
-    <div class="image">
-        <img src="./assets/MyPhoto.JPG" alt="Vannet's photo">
-    </div>
-  </section>
+  <main>
+    <!-- ============ HOME ============ -->
+    <section id="home" class="hero">
+      <div class="hero__grid container">
+        <div class="hero__copy">
+          <p class="eyebrow" data-reveal>
+            <span class="pulse"></span> <span data-i18n="hero.status">Available for opportunities</span>
+          </p>
 
-  <!-- Section Skills -->
-  <section id="skill">
-    <div class="container">
-      <h2>My Skills</h2>
-      <h3>Programming language</h3>
-      <p>______________________________________________________________________________________________________________________________________</p><br>
-      <div class="skill-grid">
-        <div class="skill-card">
-          <div class="imgHTML">
-            <img src="./assets/HTML.png" alt="HTML">
+          <h1 class="hero__title">
+            <span class="line" data-reveal data-i18n="hero.greet">Hello, I'm</span>
+            <span class="line gradient-text" data-reveal data-i18n="hero.name">SONY Vannet</span>
+          </h1>
+
+          <p class="hero__role" data-reveal>
+            <span class="typed" id="typed" aria-live="polite"></span><span class="caret" aria-hidden="true"></span>
+          </p>
+
+          <p class="hero__lead" data-reveal data-i18n="hero.lead">
+            A junior developer from Phnom Penh, Cambodia — building clean, accessible and
+            delightfully animated interfaces with HTML, CSS, JavaScript and C#.
+          </p>
+
+          <div class="hero__cta" data-reveal>
+            <a href="#about" class="btn btn--primary">
+              <span data-i18n="hero.cta1">Explore my CV</span> <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="#contact" class="btn btn--ghost">
+              <span data-i18n="hero.cta2">Get in touch</span> <i class="fas fa-paper-plane"></i>
+            </a>
           </div>
+
+          <ul class="hero__stats" data-reveal>
+            <li>
+              <strong data-count="4">0</strong>
+              <span data-i18n="hero.stat1">Certifications</span>
+            </li>
+            <li>
+              <strong data-count="8" data-suffix="+">0</strong>
+              <span data-i18n="hero.stat2">Technologies</span>
+            </li>
+            <li>
+              <strong data-count="2025">0</strong>
+              <span data-i18n="hero.stat3">Graduated</span>
+            </li>
+          </ul>
         </div>
-        <div class="skill-card">
-          <div class="imgHTML">
-            <img src="./assets/CSS.png" alt="CSS">
-          </div>
-        </div>
-        <div class="skill-card">
-          <div class="imgHTML">
-            <img src="./assets/JavaScript.png" alt="JavaScript">
-          </div>
-        </div>
-        <div class="skill-card">
-          <div class="imgHTML">
-            <img src="./assets/CSharp.png" alt="csharp">
-          </div>
-        </div>
-      </div><br>
-      <h3>Tools Using</h3>
-      <p>______________________________________________________________________________________________________________________________________</p><br>
-      <div class="skill-grid">
-        <div class="skill-card">
-          <div class="imgHTML">
-            <img src="./assets/VSCode.png" alt="vscode">
-          </div>
-        </div>
-        <div class="skill-card">
-          <div class="imgHTML">
-            <img src="./assets/SQLMS.png" alt="SQLMS">
-          </div>
-        </div>
-        <div class="skill-card">
-          <div class="imgHTML">
-            <img src="./assets/Postman.png" alt="postman">
-          </div>
-        </div>
-        <div class="skill-card">
-          <div class="imgHTML">
-            <img src="./assets/GitHub.png" alt="GitHub">
+
+        <div class="hero__visual" data-reveal data-tilt>
+          <div class="orb-ring"></div>
+          <div class="orb-ring orb-ring--2"></div>
+          <div class="hero__card">
+            <img src="./assets/Presentation.png" alt="Illustration of Vannet working at a desk" width="685"
+              height="685" data-i18n-alt="hero.photoAlt" />
+            <span class="float-chip float-chip--1"><i class="fas fa-code"></i> Front-end</span>
+            <span class="float-chip float-chip--2"><i class="fas fa-database"></i> SQL</span>
+            <span class="float-chip float-chip--3"><i class="fas fa-hashtag"></i> C#</span>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Section Educations -->
-  <section id="Educations">
-    <div class="Education">
-      <div class="blank">
-        <!-- Blank -->
-      </div> <br>
-      <div class="education-head">
-        <h2>Educations</span></h2><br>
-        <p>_______________________________________________________________________________________________</p><br>
-      </div>
-    </div>
-    <div class="wrap">
-      <div class="Vector">
-        <img src="./assets/Educations.jpg" alt="vector">
-      </div>
-      <div class="wrapcard">
-        <div class="educations-grid">
-          <div class="education-card">
-            <h3>RUPP</h3><br>
-            <P>Has completed bachelor’s degree, Computer Science of Information Technology (IT) at
-              Royal University of Phnom Penh.</P><br>
-            <a href="https://www.rupp.edu.kh/" target="_blank">More</a>
+      <a href="#about" class="scroll-hint" aria-label="Scroll to About">
+        <span class="scroll-hint__mouse"><span></span></span>
+        <span class="scroll-hint__text" data-i18n="hero.scroll">Scroll</span>
+      </a>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="section">
+      <div class="container">
+        <header class="section__head">
+          <p class="section__kicker" data-reveal><i class="fas fa-user"></i> <span data-i18n="about.kicker">About
+              me</span></p>
+          <h2 class="section__title" data-reveal data-i18n="about.title" data-i18n-html="true">A little about <span
+              class="gradient-text">who I am</span></h2>
+          <p class="section__rule" data-reveal></p>
+        </header>
+
+        <div class="about">
+          <div class="about__media" data-reveal>
+            <div class="photo-frame" data-tilt>
+              <img src="./assets/MyPhoto-opt.jpg" alt="Portrait of SONY Vannet" width="1029" height="1100"
+                loading="lazy" data-i18n-alt="about.photoAlt" />
+              <div class="photo-frame__glow"></div>
+            </div>
+            <div class="about__badge">
+              <i class="fas fa-location-dot"></i>
+              <div>
+                <strong data-i18n="about.loc1">Phnom Penh</strong>
+                <span data-i18n="about.loc2">Cambodia</span>
+              </div>
+            </div>
           </div>
-          <div class="education-card">
-            <h3>Master IT Center</h3><br>
-            <P>Has complete Visual Studio C# Programming Foundation & OOP Database at 
-              Master Information Technology.</P><br>
-            <a href="https://masteritlearnonline.com/" target="_blank">More</a>
-          </div>
-        </div> <br>
-        <div class="educations-grid">
-          <div class="education-card">
-            <h3>Reanmore.com</h3><br>
-            <P>Has completed basic webpage language HTML, CSS and JavaScript at Reanmore.com </P><br>
-            <a href="https://reanmore.com/" target="_blank">More</a>
-          </div>
-          <div class="education-card">
-            <h3>ETEC Center</h3><br>
-            <P>Has completed study Language C & C++ Programming at ETEC Center in 2021.</P><br>
-            <a href="https://www.facebook.com/eteccenter/" target="_blank">More</a>
+
+          <div class="about__body">
+            <p class="about__intro" data-reveal data-i18n="about.p1" data-i18n-html="true">
+              My name is <span class="name">SONY Vannet</span>, I'm <span class="name">23 years old</span> and I was
+              born on February 21, 2002 in Kandal Province. I now live and work in Phnom Penh, Cambodia.
+            </p>
+
+            <p data-reveal data-i18n="about.p2" data-i18n-html="true">
+              I hold a bachelor's degree in Computer Science (Information Technology) from the
+              <strong>Royal University of Phnom Penh</strong>, after finishing Hun Sen Kampong Phnom High School
+              and Prek Touch Secondary School.
+            </p>
+
+            <p data-reveal data-i18n="about.p3" data-i18n-html="true">
+              I have completed training in Visual Studio C# Programming (Foundation &amp; OOP with databases),
+              C &amp; C++ programming, graphic design with Photoshop &amp; Illustrator, Microsoft Office, and
+              accounting &amp; taxation. I'm currently deepening my HTML, CSS, JavaScript and UX/UI skills.
+            </p>
+
+            <div class="chips" data-reveal>
+              <span class="chip"><i class="fas fa-code"></i> <span data-i18n="about.chip1">Front-end</span></span>
+              <span class="chip"><i class="fas fa-database"></i> <span data-i18n="about.chip2">SQL</span></span>
+              <span class="chip"><i class="fas fa-object-group"></i> <span data-i18n="about.chip3">OOP</span></span>
+              <span class="chip"><i class="fas fa-pen-nib"></i> <span data-i18n="about.chip4">UI Design</span></span>
+            </div>
+
+            <h3 class="about__subtitle" data-reveal data-i18n="about.interests">Interests</h3>
+            <ul class="interest-list" data-reveal>
+              <li data-reveal><i class="fas fa-magnifying-glass"></i> <span data-i18n="about.i1">Researching on the
+                  internet</span></li>
+              <li data-reveal><i class="fas fa-microchip"></i> <span data-i18n="about.i2">Learning new
+                  technology</span></li>
+              <li data-reveal><i class="fas fa-guitar"></i> <span data-i18n="about.i3">Listening to music &amp; playing
+                  guitar</span></li>
+            </ul>
           </div>
         </div>
-    </div>
-  </section>
-
-  <!-- Section Contact -->
-  <section id="contact">
-    <div class="container">
-      <div class="contacts">
-        <div class="contact-head">
-          <h2>Contact Me</h2>
-          <p>_________________________________________________________________________________</p><br>
-          <p>Get in touch with us for any inquiries or feedback. <br>We are here to assist you.</p>
-        </div>
-        <div class="contact-item">
-          <!-- Blank -->
-        </div> <br>
       </div>
-      <div class="wraps">
-        <div>
-          <div class="contact-item">
-            <i class="fas fa-phone"></i>
-            <p>(+885) 096 548 7353</p>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section id="skill" class="section section--alt">
+      <div class="container">
+        <header class="section__head">
+          <p class="section__kicker" data-reveal><i class="fas fa-code"></i> <span data-i18n="skill.kicker">Skills</span>
+          </p>
+          <h2 class="section__title" data-reveal data-i18n="skill.title" data-i18n-html="true">My <span
+              class="gradient-text">toolkit</span></h2>
+          <p class="section__rule" data-reveal></p>
+        </header>
+
+        <div class="skill__group">
+          <h3 class="skill__label" data-reveal><span></span> <span data-i18n="skill.prog">Programming
+              languages</span></h3>
+          <div class="skill-grid">
+            <article class="skill-card" data-reveal data-tilt>
+              <div class="skill-card__icon"><img src="./assets/HTML.png" alt="" loading="lazy" /></div>
+              <h4>HTML</h4>
+              <p data-i18n="skill.d1">Semantic, accessible markup</p>
+              <div class="meter"><span style="--level: 90%"></span></div>
+            </article>
+            <article class="skill-card" data-reveal data-tilt>
+              <div class="skill-card__icon"><img src="./assets/CSS.png" alt="" loading="lazy" /></div>
+              <h4>CSS</h4>
+              <p data-i18n="skill.d2">Responsive layouts &amp; animation</p>
+              <div class="meter"><span style="--level: 85%"></span></div>
+            </article>
+            <article class="skill-card" data-reveal data-tilt>
+              <div class="skill-card__icon"><img src="./assets/JavaScript.png" alt="" loading="lazy" /></div>
+              <h4>JavaScript</h4>
+              <p data-i18n="skill.d3">Interactive, dynamic interfaces</p>
+              <div class="meter"><span style="--level: 75%"></span></div>
+            </article>
+            <article class="skill-card" data-reveal data-tilt>
+              <div class="skill-card__icon"><img src="./assets/CSharp.png" alt="" loading="lazy" /></div>
+              <h4>C#</h4>
+              <p data-i18n="skill.d4">OOP &amp; database fundamentals</p>
+              <div class="meter"><span style="--level: 70%"></span></div>
+            </article>
           </div>
-            <div class="contact-item">
-              <i class="fas fa-envelope"></i>
-              <p>vannet.sony@gmail.com</p><br>
-          </div> <br>
-          <a href="https://web.facebook.com/sony.vannet" target="_blank">
-            <img src="./assets/Facebook.png" alt="Facebook" width="40">
-          </a>
-          <a href="https://t.me/SONY_Vannet" target="_blank">
-            <img src="./assets/Telegram.png" alt="Telegram" width="40">
-          </a>
-          <a href="http://linkedin.com/in/sony-vannet-5833262a1" target="_blank">
-            <img src="./assets/LinkedIn.png" alt="linkedIn" width="40">
-          </a>
-          <a href="https://www.tiktok.com/@sony_vannet?_t=ZS-8xAU1PezzxR&_r=1" target="_blank">
-            <img src="./assets/Tiktok.png" alt="TikTok" width="40">
-          </a>
         </div>
-      <form id="contact-form">
-        <input type="text" id="name" placeholder="Your Name" required />
-        <div class="error" id="name-error">Please enter your name.</div>
-        <input type="email" id="email" placeholder="Your Email" required />
-        <div class="error" id="email-error">Please enter a valid email.</div>
-        <textarea id="message" placeholder="Your Message" required></textarea>
-        <div class="error" id="message-error">Please enter a message.</div>
-        <button type="submit">Send Message</button>
-      </form>
-      </div>
-    </div>
-  </section>
 
-  <footer>
-    <p>© 2025 Vannet's CV. All rights reserved.</p>
+        <div class="skill__group">
+          <h3 class="skill__label" data-reveal><span></span> <span data-i18n="skill.tools">Tools I use</span></h3>
+          <div class="tool-grid">
+            <div class="tool" data-reveal>
+              <img src="./assets/VSCode.png" alt="" loading="lazy" />
+              <span>VS Code</span>
+            </div>
+            <div class="tool" data-reveal>
+              <img src="./assets/SQLMS.png" alt="" loading="lazy" />
+              <span data-i18n="skill.tool2">SQL Server</span>
+            </div>
+            <div class="tool" data-reveal>
+              <img src="./assets/Postman.png" alt="" loading="lazy" />
+              <span>Postman</span>
+            </div>
+            <div class="tool" data-reveal>
+              <img src="./assets/GitHub.png" alt="" loading="lazy" />
+              <span>GitHub</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section id="educations" class="section">
+      <div class="container">
+        <header class="section__head">
+          <p class="section__kicker" data-reveal><i class="fas fa-graduation-cap"></i> <span
+              data-i18n="edu.kicker">Education</span></p>
+          <h2 class="section__title" data-reveal data-i18n="edu.title" data-i18n-html="true">Where I <span
+              class="gradient-text">learned</span></h2>
+          <p class="section__rule" data-reveal></p>
+        </header>
+
+        <div class="edu">
+          <div class="edu__aside" data-reveal>
+            <div class="edu__art" data-tilt>
+              <img src="./assets/Educations-opt.jpg" alt="Education illustration" width="800" height="800"
+                loading="lazy" data-i18n-alt="edu.artAlt" />
+            </div>
+          </div>
+
+          <ol class="timeline">
+            <li class="timeline__item" data-reveal>
+              <span class="timeline__dot"></span>
+              <div class="timeline__card">
+                <span class="timeline__tag" data-i18n="edu.tag1">University</span>
+                <h3>Royal University of Phnom Penh</h3>
+                <p data-i18n="edu.d1">Completed a bachelor's degree in Computer Science of Information Technology
+                  (IT).</p>
+                <a class="link-arrow" href="https://www.rupp.edu.kh/" target="_blank" rel="noopener">
+                  <span data-i18n="edu.link1">Visit RUPP</span> <i class="fas fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </li>
+
+            <li class="timeline__item" data-reveal>
+              <span class="timeline__dot"></span>
+              <div class="timeline__card">
+                <span class="timeline__tag" data-i18n="edu.tag2">Professional training</span>
+                <h3>Master IT Center</h3>
+                <p data-i18n="edu.d2">Completed Visual Studio C# Programming Foundation &amp; OOP with Database.</p>
+                <a class="link-arrow" href="https://masteritlearnonline.com/" target="_blank" rel="noopener">
+                  <span data-i18n="edu.link2">Visit Master IT</span> <i class="fas fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </li>
+
+            <li class="timeline__item" data-reveal>
+              <span class="timeline__dot"></span>
+              <div class="timeline__card">
+                <span class="timeline__tag" data-i18n="edu.tag3">Online course</span>
+                <h3>Reanmore.com</h3>
+                <p data-i18n="edu.d3">Completed the basic webpage languages: HTML, CSS and JavaScript.</p>
+                <a class="link-arrow" href="https://reanmore.com/" target="_blank" rel="noopener">
+                  <span data-i18n="edu.link3">Visit Reanmore</span> <i class="fas fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </li>
+
+            <li class="timeline__item" data-reveal>
+              <span class="timeline__dot"></span>
+              <div class="timeline__card">
+                <span class="timeline__tag" data-i18n="edu.tag4">2021</span>
+                <h3>ETEC Center</h3>
+                <p data-i18n="edu.d4">Completed the C &amp; C++ programming language course.</p>
+                <a class="link-arrow" href="https://www.facebook.com/eteccenter/" target="_blank" rel="noopener">
+                  <span data-i18n="edu.link4">Visit ETEC</span> <i class="fas fa-arrow-up-right-from-square"></i>
+                </a>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section section--alt">
+      <div class="container">
+        <header class="section__head">
+          <p class="section__kicker" data-reveal><i class="fas fa-envelope"></i> <span
+              data-i18n="contact.kicker">Contact</span></p>
+          <h2 class="section__title" data-reveal data-i18n="contact.title" data-i18n-html="true">Let's <span
+              class="gradient-text">work together</span></h2>
+          <p class="section__rule" data-reveal></p>
+        </header>
+
+        <div class="contact">
+          <div class="contact__aside" data-reveal>
+            <p class="contact__lead" data-i18n="contact.lead">
+              Have a project, an internship or just a question? Send me a message — I usually reply within a day.
+            </p>
+
+            <ul class="contact-list">
+              <li>
+                <span class="contact-list__icon"><i class="fas fa-phone"></i></span>
+                <a href="tel:+855965487353">(+855) 096 548 7353</a>
+              </li>
+              <li>
+                <span class="contact-list__icon"><i class="fas fa-envelope"></i></span>
+                <a href="mailto:vannet.sony@gmail.com">vannet.sony@gmail.com</a>
+              </li>
+              <li>
+                <span class="contact-list__icon"><i class="fas fa-location-dot"></i></span>
+                <span data-i18n="contact.loc">Phnom Penh, Cambodia</span>
+              </li>
+            </ul>
+
+            <div class="socials">
+              <a href="https://web.facebook.com/sony.vannet" target="_blank" rel="noopener" aria-label="Facebook"
+                class="social">
+                <img src="./assets/Facebook.png" alt="" loading="lazy" />
+              </a>
+              <a href="https://t.me/SONY_Vannet" target="_blank" rel="noopener" aria-label="Telegram" class="social">
+                <img src="./assets/Telegram.png" alt="" loading="lazy" />
+              </a>
+              <a href="http://linkedin.com/in/sony-vannet-5833262a1" target="_blank" rel="noopener"
+                aria-label="LinkedIn" class="social">
+                <img src="./assets/LinkedIn.png" alt="" loading="lazy" />
+              </a>
+              <a href="https://www.tiktok.com/@sony_vannet" target="_blank" rel="noopener" aria-label="TikTok"
+                class="social">
+                <img src="./assets/Tiktok.png" alt="" loading="lazy" />
+              </a>
+            </div>
+          </div>
+
+          <form id="contact-form" class="form" novalidate data-reveal>
+            <div class="field">
+              <input type="text" id="name" name="name" placeholder=" " autocomplete="name" required />
+              <label for="name" data-i18n="form.name">Your name</label>
+              <span class="field__line"></span>
+              <p class="error" id="name-error" data-i18n="err.name">Please enter your name.</p>
+            </div>
+
+            <div class="field">
+              <input type="email" id="email" name="email" placeholder=" " autocomplete="email" required />
+              <label for="email" data-i18n="form.email">Your email</label>
+              <span class="field__line"></span>
+              <p class="error" id="email-error" data-i18n="err.email">Please enter a valid email address.</p>
+            </div>
+
+            <div class="field">
+              <textarea id="message" name="message" placeholder=" " rows="5" required></textarea>
+              <label for="message" data-i18n="form.msg">Your message</label>
+              <span class="field__line"></span>
+              <p class="error" id="message-error" data-i18n="err.msg">Please enter a message.</p>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--block" id="submit-btn">
+              <span class="btn__label" data-i18n="form.submit">Send message</span>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+
+            <p class="form__note" id="form-note" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p data-i18n="footer.copy" data-i18n-html="true">&copy; 2025 SONY Vannet — All rights reserved.</p>
+      <p class="footer__meta" data-i18n="footer.meta" data-i18n-html="true">Designed &amp; built with <i
+          class="fas fa-heart"></i> in Phnom Penh</p>
+    </div>
   </footer>
 
+  <button class="to-top" id="to-top" aria-label="Back to top" data-i18n-aria="aria.top"><i
+      class="fas fa-arrow-up"></i></button>
+
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>
