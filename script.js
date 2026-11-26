@@ -127,34 +127,12 @@
   });
 
   /* ----------------------------------------------------------
-     4. Mobile menu
+     4. Nav links (the bar is always visible — no menu toggle)
      ---------------------------------------------------------- */
-  const burger = $('#nav-burger');
-  const menu = $('#nav-menu');
-
-  const closeMenu = () => {
-    menu?.classList.remove('is-open');
-    burger?.setAttribute('aria-expanded', 'false');
-    burger?.setAttribute('aria-label', 'Open menu');
-  };
-
-  burger?.addEventListener('click', () => {
-    const open = menu.classList.toggle('is-open');
-    burger.setAttribute('aria-expanded', String(open));
-    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  });
-
-  navLinks.forEach((link) => link.addEventListener('click', closeMenu));
-
-  document.addEventListener('click', (e) => {
-    if (menu?.classList.contains('is-open') && !menu.contains(e.target) && !burger.contains(e.target)) {
-      closeMenu();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
-  });
+  navLinks.forEach((link) => link.addEventListener('click', () => {
+    // collapse the on-screen keyboard / clear focus after tapping
+    link.blur();
+  }));
 
   /* ----------------------------------------------------------
      5. Typed headline (language-aware, grapheme-safe)
