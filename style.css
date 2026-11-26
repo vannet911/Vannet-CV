@@ -1863,23 +1863,28 @@ body.has-cursor .cursor-dot {
 
 @media (max-width: 768px) {
   :root {
-    --nav-h: 112px;
+    --nav-h: 66px;
+    --tabbar-h: 64px;
   }
 
-  /* Two-row app bar: brand + controls on top, full-width links beneath */
+  /* ---- Top bar: brand + controls only ---- */
   .nav {
-    height: auto;
-    min-height: var(--nav-h);
-    padding-block: 0.5rem;
+    height: var(--nav-h);
+    min-height: 0;
+    padding-block: 0;
+  }
+
+  /* backdrop-filter would make .nav a containing block for the fixed pill
+     below, so drop it and use a near-opaque background instead */
+  .nav.is-stuck {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: color-mix(in srgb, var(--bg) 94%, transparent);
   }
 
   .nav__inner {
-    flex-wrap: wrap;
-    row-gap: 0.5rem;
-  }
-
-  .brand {
-    order: 1;
+    flex-wrap: nowrap;
+    row-gap: 0;
   }
 
   .brand__text {
@@ -1887,7 +1892,6 @@ body.has-cursor .cursor-dot {
   }
 
   .nav__actions {
-    order: 2;
     margin-left: auto;
     gap: 0.4rem;
   }
@@ -1898,22 +1902,26 @@ body.has-cursor .cursor-dot {
     border-radius: 10px;
   }
 
+  /* ---- Floating links pill, pinned to the bottom ---- */
   .nav__menu {
-    order: 3;
-    position: static;
-    flex: 1 0 100%;
+    position: fixed;
+    left: 50%;
+    bottom: calc(0.85rem + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    z-index: 1060;
+    width: min(calc(100% - 1.6rem), 420px);
+    flex: none;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 0.15rem;
-    padding: 0.2rem;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background: var(--surface);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    box-shadow: none;
-    transform: none;
+    gap: 0.1rem;
+    padding: 0.24rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50px;
+    background: color-mix(in srgb, var(--bg-alt) 92%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    box-shadow: var(--shadow-lg);
     opacity: 1;
     visibility: visible;
   }
@@ -1924,19 +1932,29 @@ body.has-cursor .cursor-dot {
     flex-direction: column;
     justify-content: center;
     gap: 0.24rem;
-    padding: 0.4rem 0.15rem;
-    border-radius: 10px;
+    padding: 0.42rem 0.15rem;
+    border-radius: 50px;
     font-size: clamp(0.66rem, 2.9vw, 0.78rem);
     line-height: 1;
     white-space: nowrap;
   }
 
   .nav__link i {
-    font-size: 0.84rem;
+    font-size: 0.86rem;
   }
 
   .nav__link span {
     display: block;
+  }
+
+  /* keep content clear of the floating pill */
+  body {
+    padding-bottom: calc(var(--tabbar-h) + 1.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* the pill already has a Home link — drop the redundant to-top button */
+  .to-top {
+    display: none;
   }
 
   .hero {
