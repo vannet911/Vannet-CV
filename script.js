@@ -384,8 +384,22 @@
   }
 
   /* ----------------------------------------------------------
-     10. Contact form validation
+     10. Contact form
      ---------------------------------------------------------- */
+
+  // How messages are delivered.
+  //
+  //   ''                             -> mailto: fallback (no setup; opens the
+  //                                    visitor's mail app, message prefilled)
+  //   'https://formspree.io/f/xxxx'   -> real POST; lands in the inbox
+  //   'https://api.web3forms.com/submit' + CONTACT_ACCESS_KEY -> real POST
+  //
+  // Paste an endpoint below and delivery upgrades automatically — nothing
+  // else needs to change.
+  const CONTACT_ENDPOINT = '';
+  const CONTACT_ACCESS_KEY = ''; // Web3Forms only
+  const OWNER_EMAIL = 'vannet.sony@gmail.com';
+
   const form = $('#contact-form');
 
   if (form) {
@@ -426,7 +440,68 @@
       });
     });
 
-    form.addEventListener('submit', (e) => {
+    const label = () => $('.btn__label', submitBtn);
+    const t = (key) => window.CV_I18N?.t(key) ?? '';
+
+    const showNote = (text, kind = 'ok') => {
+      if (!note) return;
+      note.textContent = text;
+      note.dataset.kind = kind;
+      note.classList.add('is-shown');
+      clearTimeout(showNote.timer);
+      showNote.timer = setTimeout(() => note.classList.remove('is-shown'), 9000);
+    };
+
+    const complete = (successText) => {
+      submitBtn.disabled = false;
+      if (label()) label().textContent = t('form.submit') || 'Send message';
+      form.reset();
+      Object.keys(fields).forEach((key) => setError(key, false));
+      showNote(successText);
+    };
+
+    // No endpoint configured: hand off to the visitor's mail app.
+    const sendViaMailto = (name, email, message) => {
+      const subject = `[CV contact] ${name}`;
+      const body = [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        '',
+        message,
+      ].join('\r\n');
+
+      const href =
+        `mailto:${OWNER_EMAIL}` +
+        `?subject=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(body)}`;
+
+      window.location.href = href;
+      complete(t('form.mailtoNote'));
+    };
+
+    // Endpoint configured: POST for real.
+    const sendViaEndpoint = async (name, email, message) => {
+      const payload = {
+        name,
+        email,
+        message,
+        _subject: `[CV contact] ${name}`,
+        _replyto: email,
+      };
+
+      if (CONTACT_ACCESS_KEY) payload.access_key = CONTACT_ACCESS_KEY;
+
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      complete(t('form.sentSend'));
+    };
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       if (!validate()) {
@@ -435,25 +510,25 @@
         return;
       }
 
-      const label = $('.btn__label', submitBtn);
-      const t = (key) => window.CV_I18N?.t(key) ?? '';
+      const name = fields.name.input.value.trim();
+      const email = fields.email.input.value.trim();
+      const message = fields.message.input.value.trim();
 
       submitBtn.disabled = true;
-      if (label) label.textContent = t('form.sending') || 'Sending…';
+      if (label()) label().textContent = t('form.sending') || 'Sending…';
 
-      // No backend wired up — simulate the round trip and point to email.
-      setTimeout(() => {
+      if (!CONTACT_ENDPOINT) {
+        sendViaMailto(name, email, message);
+        return;
+      }
+
+      try {
+        await sendViaEndpoint(name, email, message);
+      } catch (err) {
         submitBtn.disabled = false;
-        if (label) label.textContent = t('form.submit') || 'Send message';
-        form.reset();
-        Object.keys(fields).forEach((key) => setError(key, false));
-
-        if (note) {
-          note.textContent = t('form.sent');
-          note.classList.add('is-shown');
-          setTimeout(() => note.classList.remove('is-shown'), 6000);
-        }
-      }, 900);
+        if (label()) label().textContent = t('form.submit') || 'Send message';
+        showNote(t('form.failed'), 'error');
+      }
     });
   }
 

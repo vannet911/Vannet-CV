@@ -1709,6 +1709,10 @@ body.has-cursor .cursor-dot {
   opacity: 1;
 }
 
+.form__note[data-kind="error"] {
+  color: #e5484d;
+}
+
 .form button[disabled] {
   opacity: 0.7;
   cursor: progress;

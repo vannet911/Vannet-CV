@@ -97,8 +97,10 @@
       'form.msg': 'Your message',
       'form.submit': 'Send message',
       'form.sending': 'Sending…',
-      'form.sent':
-        'Thanks! Your message is ready — for a direct reply, email vannet.sony@gmail.com.',
+      'form.mailtoNote':
+        'Your mail app is opening with the message ready — just press Send. Or write directly to vannet.sony@gmail.com.',
+      'form.sentSend': 'Thank you! Your message was sent — I usually reply within a day.',
+      'form.failed': 'Sorry, the message could not be sent. Please email vannet.sony@gmail.com instead.',
       'err.name': 'Please enter your name.',
       'err.email': 'Please enter a valid email address.',
       'err.msg': 'Please enter a message.',
@@ -206,7 +208,9 @@
       'form.msg': 'សាររបស់អ្នក',
       'form.submit': 'ផ្ញើសារ',
       'form.sending': 'កំពុងផ្ញើ…',
-      'form.sent': 'អរគុណ! សាររបស់អ្នកបានរួចរាល់ — សម្រាប់ការឆ្លើយតបផ្ទាល់ សូមផ្ញើមក vannet.sony@gmail.com។',
+      'form.mailtoNote': 'កម្មវិធីអ៊ីមែលរបស់អ្នកកំពុងបើក ជាមួយសារដែលរៀបចំរួច — សូមចុច ផ្ញើ។ ឬផ្ញើផ្ទាល់មក vannet.sony@gmail.com។',
+      'form.sentSend': 'អរគុណ! សាររបស់អ្នកបានផ្ញើរួចហើយ — ជាធម្មតាខ្ញុំឆ្លើយតបក្នុងរយៈពេលមួយថ្ងៃ។',
+      'form.failed': 'សូមអភ័យទោស សារមិនអាចផ្ញើបានទេ។ សូមផ្ញើអ៊ីមែលមក vannet.sony@gmail.com ជំនួសវិញ។',
       'err.name': 'សូមបញ្ចូលឈ្មោះរបស់អ្នក។',
       'err.email': 'សូមបញ្ចូលអ៊ីមែលឲ្យបានត្រឹមត្រូវ។',
       'err.msg': 'សូមបញ្ចូលសារ។',
