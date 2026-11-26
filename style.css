@@ -48,11 +48,8 @@
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --nav-h: 74px;
 
-  /* background plexus + grid */
+  /* background grid */
   --grid-line: rgba(14, 47, 63, 0.075);
-  --plexus-node: rgba(14, 47, 63, 0.5);
-  --plexus-hub: rgba(2, 132, 199, 0.95);
-  --plexus-link: rgba(27, 90, 122, 0.9);
 
   --font-display: "Space Grotesk", "Kantumruy Pro", system-ui, sans-serif;
   --font-body: "Kantumruy Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -74,11 +71,8 @@
   --shadow-md: 0 14px 34px -14px rgba(0, 0, 0, 0.7);
   --shadow-lg: 0 34px 80px -34px rgba(0, 0, 0, 0.85);
 
-  /* background plexus + grid */
+  /* background grid */
   --grid-line: rgba(148, 209, 235, 0.085);
-  --plexus-node: rgba(174, 220, 240, 0.62);
-  --plexus-hub: rgba(56, 189, 248, 1);
-  --plexus-link: rgba(125, 211, 252, 0.95);
 }
 
 /* ---------- 2. Reset & base ---------- */
@@ -160,7 +154,7 @@ button {
   background-clip: text;
 }
 
-/* ---------- 3. Ambient background: grid → plexus → vignette ---------- */
+/* ---------- 3. Ambient background: grid → vignette ---------- */
 .bg {
   position: fixed;
   inset: 0;
@@ -182,16 +176,7 @@ button {
   mask-image: radial-gradient(ellipse 74% 70% at 50% 44%, #000 0%, #000 34%, transparent 74%);
 }
 
-/* Layer 2 — plexus canvas (drawn in script.js) */
-.bg__plexus {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* Layer 3 — vignette to settle the edges */
+/* Layer 2 — vignette to settle the edges */
 .bg__vignette {
   position: absolute;
   inset: 0;
