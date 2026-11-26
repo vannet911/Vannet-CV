@@ -360,8 +360,9 @@
   }
 
   /* ----------------------------------------------------------
-     9. Animated plexus background
+     9. Static plexus background
         Layer 1 (CSS grid) + Layer 2 (this canvas) + Layer 3 (CSS vignette)
+        Drawn once, then only redrawn on resize / theme change — no animation.
      ---------------------------------------------------------- */
   const PLEXUS = {
     density: 21000, // area per node
@@ -374,13 +375,6 @@
     hubScale: 1.7,
     minR: 1.1,
     maxR: 1.5,
-    speed: 0.11, // px per 60fps frame
-    cursorDist: 210,
-    cursorAlpha: 0.32,
-    pulseCount: 10,
-    pulseSpeedMin: 0.006,
-    pulseSpeedMax: 0.01,
-    pulseChance: 0.02, // per 60fps frame
     maxDPR: 2,
   };
 
@@ -390,15 +384,9 @@
     const ctx = canvas.getContext('2d');
 
     let nodes = [];
-    let pulses = [];
     let width = 0;
     let height = 0;
     let dpr = 1;
-    let raf = null;
-    let running = false;
-    let lastTime = 0;
-
-    const pointer = { x: -9999, y: -9999, active: false };
 
     const parseRGB = (value) => {
       if (!value) return { r: 14, g: 47, b: 63 };
@@ -425,7 +413,6 @@
         node: parseRGB(cs.getPropertyValue('--plexus-node')),
         hub: parseRGB(cs.getPropertyValue('--plexus-hub')),
         link: parseRGB(cs.getPropertyValue('--plexus-link')),
-        pulse: parseRGB(cs.getPropertyValue('--plexus-pulse')),
       };
     };
 
@@ -434,29 +421,29 @@
     const nodeCountFor = (w, h) =>
       Math.round(Math.min(PLEXUS.maxNodes, Math.max(PLEXUS.minNodes, (w * h) / PLEXUS.density)));
 
-    const seed = () => {
-      const count = nodeCountFor(width, height);
+    const seed = (count) => {
       const hubTotal = Math.round(count * PLEXUS.hubRatio);
 
       nodes = Array.from({ length: count }, (_, i) => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 2 * PLEXUS.speed,
-        vy: (Math.random() - 0.5) * 2 * PLEXUS.speed,
         r: PLEXUS.minR + Math.random() * (PLEXUS.maxR - PLEXUS.minR),
         hub: i < hubTotal,
       }));
-      pulses = [];
     };
 
-    // Self-healing sizing: driven by comparing clientWidth on every draw,
-    // not only by resize events / ResizeObserver.
+    // Self-healing sizing: compare clientWidth on every render rather than
+    // trusting resize events alone.
     const syncSize = () => {
       const w = canvas.clientWidth || window.innerWidth;
       const h = canvas.clientHeight || window.innerHeight;
       const nextDpr = Math.min(window.devicePixelRatio || 1, PLEXUS.maxDPR);
 
       if (w === width && h === height && nextDpr === dpr) return false;
+
+      const prevW = width;
+      const prevH = height;
+      const hadNodes = nodes.length > 0;
 
       width = w;
       height = h;
@@ -466,43 +453,21 @@
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      seed();
-      return true;
-    };
+      const count = nodeCountFor(width, height);
 
-    const step = (dt) => {
-      // position update + wrap
-      for (const n of nodes) {
-        n.x += n.vx * dt;
-        n.y += n.vy * dt;
-
-        if (n.x < -20) n.x = width + 20;
-        else if (n.x > width + 20) n.x = -20;
-        if (n.y < -20) n.y = height + 20;
-        else if (n.y > height + 20) n.y = -20;
-      }
-
-      // pulses
-      if (pulses.length < PLEXUS.pulseCount && Math.random() < PLEXUS.pulseChance * dt && nodes.length > 1) {
-        const a = Math.floor(Math.random() * nodes.length);
-        let b = Math.floor(Math.random() * nodes.length);
-        if (b === a) b = (b + 1) % nodes.length;
-
-        const d = Math.hypot(nodes[a].x - nodes[b].x, nodes[a].y - nodes[b].y);
-        if (d < PLEXUS.linkDist) {
-          pulses.push({
-            a,
-            b,
-            t: 0,
-            speed: PLEXUS.pulseSpeedMin + Math.random() * (PLEXUS.pulseSpeedMax - PLEXUS.pulseSpeedMin),
-          });
+      if (!hadNodes || count !== nodes.length) {
+        seed(count);
+      } else {
+        // keep the composition and just remap it to the new bounds
+        const sx = prevW ? width / prevW : 1;
+        const sy = prevH ? height / prevH : 1;
+        for (const n of nodes) {
+          n.x *= sx;
+          n.y *= sy;
         }
       }
 
-      for (let i = pulses.length - 1; i >= 0; i--) {
-        pulses[i].t += pulses[i].speed * dt;
-        if (pulses[i].t >= 1) pulses.splice(i, 1);
-      }
+      return true;
     };
 
     const BUCKETS = 12;
@@ -548,29 +513,6 @@
         ctx.stroke();
       }
 
-      // cursor links — flat 0.32 alpha within 210px
-      if (pointer.active) {
-        const cMax = PLEXUS.cursorDist * PLEXUS.cursorDist;
-        ctx.strokeStyle = rgba(colors.hub, PLEXUS.cursorAlpha);
-        ctx.lineWidth = PLEXUS.lineWidth;
-        ctx.beginPath();
-
-        for (const n of nodes) {
-          const dx = n.x - pointer.x;
-          const dy = n.y - pointer.y;
-          if (dx * dx + dy * dy > cMax) continue;
-
-          ctx.moveTo(n.x, n.y);
-          ctx.lineTo(pointer.x, pointer.y);
-        }
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(pointer.x, pointer.y, 2.2, 0, Math.PI * 2);
-        ctx.fillStyle = rgba(colors.hub, 0.5);
-        ctx.fill();
-      }
-
       // nodes
       for (const n of nodes) {
         ctx.beginPath();
@@ -578,115 +520,28 @@
         ctx.fillStyle = rgba(n.hub ? colors.hub : colors.node, n.hub ? 0.95 : 0.55);
         ctx.fill();
       }
-
-      // signal pulses travelling along links
-      for (const p of pulses) {
-        const a = nodes[p.a];
-        const b = nodes[p.b];
-        if (!a || !b) continue;
-
-        const x = a.x + (b.x - a.x) * p.t;
-        const y = a.y + (b.y - a.y) * p.t;
-
-        const tailT = Math.max(0, p.t - 0.09);
-        const tx = a.x + (b.x - a.x) * tailT;
-        const ty = a.y + (b.y - a.y) * tailT;
-
-        ctx.strokeStyle = rgba(colors.pulse, 0.5);
-        ctx.lineWidth = 1.4;
-        ctx.beginPath();
-        ctx.moveTo(tx, ty);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(x, y, 1.9, 0, Math.PI * 2);
-        ctx.fillStyle = rgba(colors.pulse, 0.95);
-        ctx.fill();
-      }
     };
 
-    const loop = (now) => {
-      if (!running) return;
-
-      const dt = Math.min((now - lastTime) / (1000 / 60), 3) || 0;
-      lastTime = now;
-
-      if (syncSize()) {
-        // canvas was resized mid-flight — keep colours fresh too
-        colors = theme();
-      }
-
-      step(dt);
+    const render = () => {
+      syncSize();
       draw();
-
-      raf = requestAnimationFrame(loop);
     };
 
-    const start = () => {
-      if (running) return;
-      running = true;
-      lastTime = performance.now();
-      raf = requestAnimationFrame(loop);
-    };
+    // single static frame
+    render();
 
-    const stop = () => {
-      running = false;
-      if (raf) cancelAnimationFrame(raf);
-      raf = null;
-    };
+    // redraw (not animate) when the layout or theme changes
+    window.addEventListener('resize', render, { passive: true });
 
-    // static first frame, then either animate or stay still
-    syncSize();
-    draw();
-
-    if (!prefersReduced) start();
-
-    // keep colours in sync with the theme
     document.addEventListener('cv:themechange', () => {
       colors = theme();
-      if (!running) draw();
+      render();
     });
 
-    // safety net: redraw a static frame while paused so a resize still looks right
-    window.addEventListener('resize', () => {
-      if (!running) {
-        syncSize();
-        draw();
-      }
-    });
-
-    // cursor tracking for the 210px links
-    if (!prefersReduced && !isTouch) {
-      window.addEventListener(
-        'pointermove',
-        (e) => {
-          pointer.x = e.clientX;
-          pointer.y = e.clientY;
-          pointer.active = true;
-        },
-        { passive: true }
-      );
-
-      window.addEventListener(
-        'pointerleave',
-        () => {
-          pointer.active = false;
-        },
-        { passive: true }
-      );
-
-      document.addEventListener('mouseleave', () => {
-        pointer.active = false;
-      });
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(render);
+      ro.observe(canvas);
     }
-
-    // pause when the tab is hidden, resume when it returns
-    document.addEventListener('visibilitychange', () => {
-      if (prefersReduced) return;
-      if (document.hidden) stop();
-      else start();
-    });
   }
 
   /* ----------------------------------------------------------

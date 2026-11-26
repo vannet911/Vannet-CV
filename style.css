@@ -53,7 +53,6 @@
   --plexus-node: rgba(14, 47, 63, 0.5);
   --plexus-hub: rgba(2, 132, 199, 0.95);
   --plexus-link: rgba(27, 90, 122, 0.9);
-  --plexus-pulse: rgba(201, 138, 27, 1);
 
   --font-display: "Space Grotesk", "Kantumruy Pro", system-ui, sans-serif;
   --font-body: "Kantumruy Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -80,7 +79,6 @@
   --plexus-node: rgba(174, 220, 240, 0.62);
   --plexus-hub: rgba(56, 189, 248, 1);
   --plexus-link: rgba(125, 211, 252, 0.95);
-  --plexus-pulse: rgba(252, 211, 77, 1);
 }
 
 /* ---------- 2. Reset & base ---------- */
