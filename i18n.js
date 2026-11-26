@@ -105,7 +105,7 @@
 
       /* footer & controls */
       'footer.copy': '© {year} SONY Vannet — All rights reserved.',
-      'footer.meta': 'Designed &amp; built with <i class="fas fa-heart"></i> in Phnom Penh',
+      'footer.meta': 'Designed &amp; built in Phnom Penh, Cambodia. <i class="fas fa-heart"></i>',
       'aria.top': 'Back to top',
       'aria.lang': 'Switch to Khmer',
       'aria.themeLight': 'Switch to light theme',
@@ -213,7 +213,7 @@
 
       /* footer & controls */
       'footer.copy': '© {year} សូនី វ៉ាន់នេត — រក្សាសិទ្ធិគ្រប់យ៉ាង។',
-      'footer.meta': 'រចនា និងបង្កើតដោយ <i class="fas fa-heart"></i> នៅភ្នំពេញ',
+      'footer.meta': 'រចនា និងបង្កើតនៅភ្នំពេញ ប្រទេសកម្ពុជា។ <i class="fas fa-heart"></i>',
       'aria.top': 'ត្រឡប់ទៅខាងលើ',
       'aria.lang': 'ប្តូរទៅភាសាអង់គ្លេស',
       'aria.themeLight': 'ប្តូរទៅផ្ទាំងភ្លឺ',
