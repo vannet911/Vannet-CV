@@ -2037,11 +2037,17 @@ body.has-cursor .cursor-dot {
   }
 
   .socials {
-    justify-content: center;
+    justify-content: flex-start;
+  }
+
+  /* align the contact block flush with the lead text and form above/below */
+  .contact-list {
+    width: auto;
+    margin-inline: 0;
   }
 
   .contact-list li {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .about__badge {
